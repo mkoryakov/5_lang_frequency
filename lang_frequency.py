@@ -1,7 +1,7 @@
 import argparse
 import os
 from collections import Counter
-from re import findall, IGNORECASE
+from re import findall
 
 
 def load_data(filepath):
@@ -11,12 +11,10 @@ def load_data(filepath):
         return file_handler.read()
 
 
-def get_most_frequent_words(text):
-    words_from_text = findall('[a-zа-я]+', text, IGNORECASE)
-    words_in_lower_case = []
-    for word in words_from_text:
-        words_in_lower_case.append(word.lower())
-    most_frequent_words = Counter(words_in_lower_case).most_common(10)
+def get_most_frequent_words(text, count_print_words=10):
+    text = text.lower()
+    words_from_text = findall('[a-zа-я]+', text)
+    most_frequent_words = Counter(words_from_text).most_common(count_print_words)
     return most_frequent_words
 
 
@@ -26,7 +24,7 @@ if __name__ == '__main__':
         слов из файла, поданного на вход''')
     parser.add_argument('--file_name', '-f', default='lang_frequency.py',
                         help='''Имя файла, в котором необходимо подсчитать
-                        количество употреблений каждого слова''')
+                        количество употреблений каждого слова слова''')
     args = parser.parse_args()
     text = load_data(args.file_name)
     most_frequent_words = get_most_frequent_words(text)
